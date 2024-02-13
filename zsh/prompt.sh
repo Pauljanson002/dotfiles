@@ -9,11 +9,19 @@ set_prompt() {
 	# [
 	PS1="["
 
+	# Virtual Environment
+    if [[ -n $VIRTUAL_ENV ]]; then
+        PS1+="%{$fg[cyan]%}${VIRTUAL_ENV:t}%{$reset_color%}"
+		PS1+=', '
+    fi
+
 	# Path: http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/
 	PS1+="%{$fg_bold[blue]%}${PWD/#$HOME/~}%{$reset_color%}"
 
 	# Status Code
 	PS1+='%(?.., %{$fg[red]%}%?%{$reset_color%})'
+
+
 
  	# Git
  	if git rev-parse --is-inside-work-tree 2> /dev/null | grep -q 'true' ; then
