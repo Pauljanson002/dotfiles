@@ -708,6 +708,29 @@ function __setprompt
 PROMPT_COMMAND='__setprompt'
 
 # CUDA version change
+
+
+# Function to switch CUDA versions
+function use_cuda() {
+    local cuda_version=$1
+    local use_local=$2
+
+    if [ "$use_local" == "local" ]; then
+        local cuda_path="$HOME/local/cuda-${cuda_version}"
+    else
+        local cuda_path="/usr/local/cuda-${cuda_version}"
+    fi
+
+    if [ -d "$cuda_path" ]; then
+        export PATH="${cuda_path}/bin:${PATH}"
+        export LD_LIBRARY_PATH="${cuda_path}/lib64:${LD_LIBRARY_PATH}"
+        echo "Switched to CUDA ${cuda_version} from ${use_local:-root}"
+    else
+        echo "Error: CUDA ${cuda_version} not found at ${cuda_path}"
+    fi
+}
+
+
 CUDA_ROOT=/usr/local/cuda-12.2
 export PATH="$CUDA_ROOT/bin:$PATH"
 export LD_LIBRARY_PATH="$CUDA_ROOT/lib64:$LD_LIBRARY_PATH"
