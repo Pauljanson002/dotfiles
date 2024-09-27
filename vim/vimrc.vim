@@ -1,78 +1,86 @@
-" General Vim settings
-	syntax enable
-	set autoindent
-	set tabstop=4
-	set shiftwidth=4
-	set dir=/tmp/
-	set relativenumber
-	set number
+" General Vim Settings
+syntax enable
+set encoding=utf8
+set clipboard=unnamedplus " Enables clipboard integration with system clipboard
+set completeopt=noinsert,menuone,noselect " Autocomplete menu behavior
+set cursorline " Highlight the current line
+set hidden " Hide unused buffers
+set autoindent " Automatically indent new lines
+set mouse=a " Enable mouse support
+set number " Show line numbers
+set tabstop=4 " Number of spaces per tab
+set shiftwidth=4 " Number of spaces for indentation
+set expandtab " Convert tabs to spaces
+set dir=/tmp/ " Directory for swap files
+set splitbelow splitright " Open splits below and to the right
+set title " Show file title in the terminal
+set wildmenu " Enhanced command-line completion
+set guifont=hack_nerd_font:h11 " Font for GUI versions of Vim
+"set cc=100 " Show column marker at 100 (commented out)
 
-	autocmd Filetype html setlocal sw=2 expandtab
-	autocmd Filetype javascript setlocal sw=4 expandtab
+" Search and Highlighting
+set hlsearch " Highlight search matches
+set incsearch " Show search matches as you type
+set pastetoggle=<F2> " Toggle paste mode with F2
 
-	set hlsearch
-	nnoremap <C-l> :nohl<CR><C-l>:echo "Search Cleared"<CR>
-	nnoremap <C-c> :set norelativenumber<CR>:set nonumber<CR>:echo "Line numbers turned off."<CR>
-	nnoremap <C-n> :set relativenumber<CR>:set number<CR>:echo "Line numbers turned on."<CR>
+" Cursor and Indentation
+nnoremap n nzzzv " Center search results
+nnoremap N Nzzzv " Center search results
+nnoremap vv 0v$ " Select from start to end of line
 
-	nnoremap n nzzzv
-	nnoremap N Nzzzv
 
-	nnoremap vv 0v$
 
-	set listchars=tab:\|\
-	nnoremap <leader><tab> :set list!<cr>
-	set pastetoggle=<F2>
-	set mouse=a
-	set incsearch
+" Clipboard Operations
+vnoremap <C-c> "+y " Copy selection to clipboard
+nnoremap <C-v> "+p " Paste from clipboard in normal mode
+inoremap <C-v> <C-r>+ " Paste from clipboard in insert mode
+
+" Filetype Specific Settings
+autocmd Filetype html setlocal sw=2 expandtab
+autocmd Filetype javascript setlocal sw=4 expandtab
 
 " Language Specific
-	" Tabs
-		so ~/dotfiles/vim/sleuth.vim
+" Include external tab settings
+" so ~/dotfiles/vim/sleuth.vim (commented out if no access)
 
-	" Markup
-		inoremap <leader>< <esc>I<<esc>A><esc>yypa/<esc>O<tab>
-
+" Markup Settings
+inoremap <leader>< <esc>I<<esc>A><esc>yypa/<esc>O<tab>
 
 " File and Window Management
-	inoremap <leader>w <Esc>:w<CR>
-	nnoremap <leader>w :w<CR>
+inoremap <leader>w <Esc>:w<CR> " Save file
+nnoremap <leader>w :w<CR> " Save file
 
-	inoremap <leader>q <ESC>:q<CR>
-	nnoremap <leader>q :q<CR>
+inoremap <leader>q <ESC>:q<CR> " Quit file
+nnoremap <leader>q :q<CR> " Quit file
 
-	inoremap <leader>x <ESC>:x<CR>
-	nnoremap <leader>x :x<CR>
+inoremap <leader>x <ESC>:x<CR> " Save and quit
+nnoremap <leader>x :x<CR> " Save and quit
 
-	nnoremap <leader>e :Ex<CR>
-	nnoremap <leader>t :tabnew<CR>:Ex<CR>
-	nnoremap <leader>v :vsplit<CR>:w<CR>:Ex<CR>
-	nnoremap <leader>s :split<CR>:w<CR>:Ex<CR>
+nnoremap <leader>e :Ex<CR> " Open file explorer
+nnoremap <leader>t :tabnew<CR>:Ex<CR> " Open a new tab and file explorer
+nnoremap <leader>v :vsplit<CR>:w<CR>:Ex<CR> " Vertical split and file explorer
+nnoremap <leader>s :split<CR>:w<CR>:Ex<CR> " Horizontal split and file explorer
 
-" Return to the same line you left off at
-	augroup line_return
-		au!
-		au BufReadPost *
-			\ if line("'\"") > 0 && line("'\"") <= line("$") |
-			\	execute 'normal! g`"zvzz' |
-			\ endif
-	augroup END
+" Return to the last edit position
+augroup line_return
+  au!
+  au BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   execute 'normal! g`"zvzz' |
+    \ endif
+augroup END
 
-" Auto load
-	" Triger `autoread` when files changes on disk
-	" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
-	" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
-	autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-	set autoread
-	" Notification after file change
-	" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
-	autocmd FileChangedShellPost *
-	  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+" Auto-reload and Notifications
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+set autoread
+autocmd FileChangedShellPost *
+  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
-" Future stuff
-	"Swap line
-	"Insert blank below and above
+" Future Improvements
+" Swap lines
+" Insert blank lines above and below
 
-" Fix for: https://github.com/fatih/vim-go/issues/1509
+" Fix for vim-go issues
+" https://github.com/fatih/vim-go/issues/1509
 
 filetype plugin indent on

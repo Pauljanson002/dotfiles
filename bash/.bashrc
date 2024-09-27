@@ -649,7 +649,10 @@ function __setprompt
         PS1+="\[${CYAN}\][${VIRTUAL_ENV##*/}]"
     fi
 
-
+	# Git branch
+	if [ -d .git ]; then
+		PS1+="\[${BLUE}\]($(git branch 2>/dev/null | grep '^*' | colrm 1 2))\[${DARKGRAY}\]"
+	fi
 
 	# CPU
 	# PS1+="(\[${MAGENTA}\]CPU $(cpu)%"
@@ -705,6 +708,6 @@ function __setprompt
 PROMPT_COMMAND='__setprompt'
 
 # CUDA version change
-CUDA_ROOT=/usr/local/cuda-11.7
+CUDA_ROOT=/usr/local/cuda-12.2
 export PATH="$CUDA_ROOT/bin:$PATH"
 export LD_LIBRARY_PATH="$CUDA_ROOT/lib64:$LD_LIBRARY_PATH"
