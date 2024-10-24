@@ -31,9 +31,9 @@ nnoremap vv 0v$ " Select from start to end of line
 
 
 " Clipboard Operations
-vnoremap <C-c> "+y " Copy selection to clipboard
-nnoremap <C-v> "+p " Paste from clipboard in normal mode
-inoremap <C-v> <C-r>+ " Paste from clipboard in insert mode
+"vnoremap <C-c> +y " Copy selection to clipboard
+"nnoremap <C-v> +p " Paste from clipboard in normal mode
+"inoremap <C-v> <C-r>+ " Paste from clipboard in insert mode
 
 " Filetype Specific Settings
 autocmd Filetype html setlocal sw=2 expandtab
