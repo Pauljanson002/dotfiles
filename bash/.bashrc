@@ -714,6 +714,10 @@ change_cuda() {
 }
 
 
+# Manually switch to CUDA 12.1
+CUDA_ROOT="/usr/local/cuda-12.1"
 
-# Example usage: change_cuda 12.1
-change_cuda 12.1
+# Add new CUDA paths
+export PATH="$CUDA_ROOT/bin:$PATH"
+export LD_LIBRARY_PATH="$CUDA_ROOT/lib64:$LD_LIBRARY_PATH"
+echo "Switched to CUDA 12.1"
