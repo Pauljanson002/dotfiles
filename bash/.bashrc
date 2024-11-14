@@ -688,7 +688,32 @@ function __setprompt {
 }
 PROMPT_COMMAND='__setprompt'
 
+change_cuda() {
+	local version=$1
+	if [ -z "$version" ]; then
+		echo "Usage: change_cuda <version>"
+		return 1
+	fi
 
-CUDA_ROOT=/usr/local/cuda-12.2
-export PATH="$CUDA_ROOT/bin:$PATH"
-export LD_LIBRARY_PATH="$CUDA_ROOT/lib64"
+	CUDA_ROOT="/usr/local/cuda-$version"
+	if [ ! -d "$CUDA_ROOT" ]; then
+		echo "CUDA version $version not found in /usr/local"
+		return 1
+	fi
+
+	# Remove previous CUDA paths from PATH and LD_LIBRARY_PATH
+	new_path=$(echo "$PATH" | sed -e 's|/usr/local/cuda-[^/]*||g' -e 's|::|:|g' -e 's|^:||' -e 's|:$||')
+	export PATH="$new_path"
+	new_ld_library_path=$(echo "$LD_LIBRARY_PATH" | sed -e 's|/usr/local/cuda-[^/]*||g' -e 's|::|:|g' -e 's|^:||' -e 's|:$||')
+	export LD_LIBRARY_PATH="$new_ld_library_path"
+
+	# Add new CUDA paths
+	export PATH="$CUDA_ROOT/bin:$PATH"
+	export LD_LIBRARY_PATH="$CUDA_ROOT/lib64:$LD_LIBRARY_PATH"
+	echo "Switched to CUDA $version"
+}
+
+
+
+# Example usage: change_cuda 12.1
+change_cuda 12.1
