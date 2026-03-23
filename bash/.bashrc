@@ -52,6 +52,9 @@ alias pico='edit'
 alias spico='sedit'
 alias nano='edit'
 alias snano='sedit'
+alias superclaude='claude --dangerously-skip-permissions'
+
+export SBATCH_MAIL_USER="pauljanson002@gmail.com"
 
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
 export CLICOLOR=1
@@ -118,7 +121,8 @@ alias freshclam='sudo freshclam'
 alias vi='vim'
 alias svi='sudo vi'
 alias vis='vim "+set si"'
-
+alias milacode='mila code --alloc --mem=8G'
+alias coderemote='code --new-window --wait --remote '
 # Change directory aliases
 alias home='cd ~'
 alias cd..='cd ..'
@@ -720,4 +724,4 @@ CUDA_ROOT="/usr/local/cuda-12.1"
 # Add new CUDA paths
 export PATH="$CUDA_ROOT/bin:$PATH"
 export LD_LIBRARY_PATH="$CUDA_ROOT/lib64:$LD_LIBRARY_PATH"
-echo "Switched to CUDA 12.1"
+
